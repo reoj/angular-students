@@ -7,4 +7,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'angular-students';
+  selectedEntity: string = 'students';
+
+  selectEntity(entity: string) {
+    this.selectedEntity = entity;
+  }
 }
