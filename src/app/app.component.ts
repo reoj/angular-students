@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Entity } from 'src/Components/shared/Entity';
 
 @Component({
   selector: 'app-root',
@@ -7,11 +8,12 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'angular-students';
-  selectedEntity: string = 'students';
+  selectedEntity: Entity = Entity.Students;
 
-  public selectEntity(entity: string) {
-    if (this.selectedEntity !== entity) {
-      this.selectedEntity = entity;
+  public selectEntity(inputChoice: string) {
+    let choice = inputChoice as Entity;
+    if (this.selectedEntity !== choice) {
+      this.selectedEntity = choice;
     }
   }
 }
