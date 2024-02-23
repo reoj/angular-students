@@ -1,8 +1,12 @@
 <div class="main">
   <nav class="header">
-    <button class="tab" onclick="selectEntity('students')">Students</button>
-    <button class="tab" onclick="selectEntity('courses')">Courses</button>
-    <button class="tab" onclick="selectEntity('students')">Projects</button>
+    <button class="tab" (click)="selectEntity('students')">Students</button>
+    <button class="tab" (click)="selectEntity('courses')">Courses</button>
+    <button class="tab" (click)="selectEntity('projects')">Projects</button>
   </nav>
-  <app-entity-viewer entity="selectedEntity"> </app-entity-viewer>
+  <div class="content">
+    <app-students *ngIf="selectedEntity === 'students'"></app-students>
+    <!-- <app-courses *ngIf="selectedEntity === 'courses'"></app-courses>
+    <app-projects *ngIf="selectedEntity === 'projects'"></app-projects> -->
+  </div>
 </div>
