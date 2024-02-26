@@ -1,6 +1,31 @@
 <div class="container">
   <h1>Students</h1>
-  <!-- <button class="btn btn-primary" (click)="addStudent()">Add Student</button> -->
-  <button class="btn btn-primary">Add Student</button>
+  <button class="btn btn-primary" (click)="oppenAddStudentForm()">
+    Add Student
+  </button>
+  <div *ngIf="showAddStudentForm">
+    <table>
+      <thead>
+        <tr>
+          <th *ngFor="let attribute of modelAttributes">{{ attribute }}</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <form>
+            <td *ngFor="let attribute of modelAttributes">
+              <input type="text" [(ngModel)]="newStudent[attribute]" />
+            </td>
+          </form>
+          <td>
+            <button (click)="addObject(newStudent)">Add</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <button class="btn btn-primary" (click)="closeForm()">X</button>
+  <shared-entity-viewer [listObjects]="studentsCollection">
+  </shared-entity-viewer>
 </div>
-<shared-entity-viewer [listObjects]="studentsCollection"></shared-entity-viewer>

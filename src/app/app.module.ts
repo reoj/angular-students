@@ -5,10 +5,11 @@ import { AppComponent } from './app.component';
 import { StudentsComponent } from '../Components/students/students.component';
 import { SharedModule } from 'src/Components/shared/shared/shared.module';
 import { CoursesComponent } from 'src/Components/courses/courses.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [AppComponent, StudentsComponent, CoursesComponent],
-  imports: [BrowserModule, SharedModule],
+  imports: [BrowserModule, SharedModule, FormsModule],
   providers: [],
   bootstrap: [AppComponent],
 })

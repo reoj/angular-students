@@ -1,6 +1,8 @@
-export interface Project {
-    Id: number;
-    Name: string;
+export class Project {
+    constructor(public Id: number, public Name: string) {
+        this.Id = Id;
+        this.Name = Name;
+    }
 }
 const listProjects: Project[] = [
     { Id: 1112, Name: "Project Marshal" },
