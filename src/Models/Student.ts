@@ -3,6 +3,9 @@ export class Student {
     this.Id = Id;
     this.Name = Name;
   }
+  
+  [key: string]: number | string;
+  
 }
 const listStudents: Student[] = [
   { Id: 1, Name: 'Ben Finegold' },
