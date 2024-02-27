@@ -10,15 +10,29 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./add-object-form.component.css'],
 })
 export class AddObjectFormComponent implements OnInit {
-  objectToAdd = {} as Student | Course | Project;
-  modelAttributes = [] as string[];
-  @Output() addObjectEvent = new EventEmitter<Student | Course | Project>();
+  @Output() addObject = new EventEmitter<Student | Course | Project>();
+  @Output() clearForm = new EventEmitter<void>();
+  @Output() formSubmit = new EventEmitter<void>();
+  @Output() formReset = new EventEmitter<void>();
 
-  ngOnInit(): void {
-    this.modelAttributes = Object.keys(this.objectToAdd);
+  constructor() {}
+
+  ngOnInit(): void {}
+
+  onSubmit() {
+    this.formSubmit.emit();
   }
-  addObject() {
-    this.addObjectEvent.emit(this.objectToAdd);
+
+  onReset() {
+    this.formReset.emit();
+  }
+
+  onAddObject() {
+    this.addObject.emit();
+  }
+
+  onClearForm() {
+    this.clearForm.emit();
   }
 }
 

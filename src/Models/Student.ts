@@ -4,8 +4,6 @@ export class Student {
     this.Name = Name;
   }
   
-  [key: string]: number | string;
-  
 }
 const listStudents: Student[] = [
   { Id: 1, Name: 'Ben Finegold' },
@@ -21,3 +19,13 @@ const listStudents: Student[] = [
 ];
 
 export default listStudents;
+
+export interface StudentGUI {
+  Id: number;
+  Name: string;
+}
+
+export const studentFields = {
+  Id: [''],
+  Name: ['']
+};

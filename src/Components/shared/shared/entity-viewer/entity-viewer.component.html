@@ -1,14 +1,12 @@
-<p>Normal</p>
 <table class="stripedTable">
-    
-    <thead>
-        <tr>
-            <th *ngFor="let attribute of modelAttributes">{{ attribute }}</th>
-        </tr>
-    </thead>
-    <tbody *ngIf="objects.length > 0">
-        <tr *ngFor="let object of objects">
-            <td *ngFor="let attribute of modelAttributes">{{ object[attribute] }}</td>
-        </tr>
-    </tbody>
+  <thead>
+    <tr>
+      <th *ngFor="let attribute of modelAttributes">{{ attribute }}</th>
+    </tr>
+  </thead>
+  <tbody *ngIf="objects.length > 0">
+    <tr *ngFor="let object of objects">
+      <td *ngFor="let attribute of modelAttributes">{{ object[attribute] }}</td>
+    </tr>
+  </tbody>
 </table>
