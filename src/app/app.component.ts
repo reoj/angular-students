@@ -15,5 +15,6 @@ export class AppComponent {
     if (this.selectedEntity !== choice) {
       this.selectedEntity = choice;
     }
+    
   }
 }

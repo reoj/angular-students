@@ -10,4 +10,8 @@ const listCourses: Course[] = [
   { Id: 203, Name: 'Magic' },
 ];
 
+export const coursesFields = {
+  Id: [''],
+  Name: ['']
+};
 export default listCourses;

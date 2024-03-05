@@ -19,4 +19,13 @@ export class EntityViewerComponent implements OnInit {
       this.objects = this.listObjects;
     }
   }
+  ngOnChanges(): void {
+    if (this.listObjects.length > 0) {
+      this.modelAttributes = Object.keys(this.listObjects[0]);
+      this.objects = this.listObjects;
+    }
+  }
+  public resetList() {
+    this.listObjects = [];
+  }
 }
