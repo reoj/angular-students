@@ -9,13 +9,14 @@
               type="text"
               [formControlName]="attrib"
               placeholder="{{ attrib }}"
+              class="input-field"
             />
           </td>
           <td>
-            <button (click)="addObject(addObjectForm.value)">Add</button>
+            <button (click)="addObject(addObjectForm.value)" class="submit-button">Add</button>
           </td>
           <td>
-            <button (click)="clearForm()">Clear</button>
+            <button (click)="clearForm()" class="clear-button">Clear</button>
           </td>
         </tr>
       </table>
