@@ -10,4 +10,9 @@ const listProjects: Project[] = [
     { Id: 2213, Name: "Project King's Indian" }
 ];
 
+export const projectsFields = {
+    Id: [''],
+    Name: ['']
+};
+
 export default listProjects;

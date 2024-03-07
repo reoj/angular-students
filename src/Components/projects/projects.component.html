@@ -1,0 +1,27 @@
+<div class="container">
+  <h1>Courses</h1>
+  <div>
+    <form [formGroup]="addObjectForm">
+      <table>
+        <tr>
+          <td *ngFor="let attrib of modelAttributes">
+            <input
+              type="text"
+              [formControlName]="attrib"
+              placeholder="{{ attrib }}"
+              class="input-field"
+            />
+          </td>
+          <td>
+            <button (click)="addObject(addObjectForm.value)" class="submit-button">Add</button>
+          </td>
+          <td>
+            <button (click)="clearForm()" class="clear-button">Clear</button>
+          </td>
+        </tr>
+      </table>
+    </form>
+  </div>
+  <shared-entity-viewer [listObjects]="projectsCollection">
+  </shared-entity-viewer>
+</div>
