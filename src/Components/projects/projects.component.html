@@ -22,6 +22,6 @@
       </table>
     </form>
   </div>
-  <shared-entity-viewer [listObjects]="projectsCollection">
+  <shared-entity-viewer [listObjects]="projectsCollection" (editable)="loadToForm($event)">
   </shared-entity-viewer>
 </div>

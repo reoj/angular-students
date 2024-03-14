@@ -18,10 +18,20 @@ export class CoursesComponent {
   constructor(private builder: FormBuilder) {    
     this.addObjectForm = this.builder.group(coursesFields);
   }
-  addObject(course: Course) {
-    this.coursesCollection.push(course);
+  addObject(value: Course) {
+    let indexOfFoundStudent = this.coursesCollection.findIndex((s) => s.Id === value.Id);
+    let isRegistered = indexOfFoundStudent > -1;
+    if (isRegistered) {
+      this.coursesCollection[indexOfFoundStudent] = value;
+      return;
+    }
+    this.coursesCollection.push(value);
+  }
+  loadToForm(course: Course) {
+    this.addObjectForm.setValue(course);
   }
   clearForm() {
     this.addObjectForm.reset();
   }
+  
 }

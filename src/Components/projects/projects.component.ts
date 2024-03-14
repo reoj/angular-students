@@ -17,8 +17,17 @@ export class ProjectsComponent {
   constructor(private builder: FormBuilder) {    
     this.addObjectForm = this.builder.group(projectsFields);
   }
-  addObject(project: Project) {
-    this.projectsCollection.push(project);
+  addObject(value: Project) {
+    let indexOfFoundStudent = this.projectsCollection.findIndex((s) => s.Id === value.Id);
+    let isRegistered = indexOfFoundStudent > -1;
+    if (isRegistered) {
+      this.projectsCollection[indexOfFoundStudent] = value;
+      return;
+    }
+    this.projectsCollection.push(value);
+  }
+  loadToForm(project: Project) {
+    this.addObjectForm.setValue(project);
   }
   clearForm() {
     this.addObjectForm.reset();

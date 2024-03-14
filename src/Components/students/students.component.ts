@@ -28,10 +28,11 @@ export class StudentsComponent {
     }
     this.studentsCollection.push(student);
   }
-  clearForm() {
-    this.addObjectForm.reset();
-  }
   loadToForm(student: Student) {
     this.addObjectForm.setValue(student);
   }
+  clearForm() {
+    this.addObjectForm.reset();
+  }
+  
 }
