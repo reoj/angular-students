@@ -20,9 +20,18 @@ export class StudentsComponent {
   }
 
   addObject(student: Student) {
+    let indexOfFoundStudent = this.studentsCollection.findIndex((s) => s.Id === student.Id);
+    let isRegistered = indexOfFoundStudent > -1;
+    if (isRegistered) {
+      this.studentsCollection[indexOfFoundStudent] = student;
+      return;
+    }
     this.studentsCollection.push(student);
   }
   clearForm() {
     this.addObjectForm.reset();
+  }
+  loadToForm(student: Student) {
+    this.addObjectForm.setValue(student);
   }
 }

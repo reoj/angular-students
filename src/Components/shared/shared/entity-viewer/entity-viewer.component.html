@@ -5,7 +5,7 @@
     </tr>
   </thead>
   <tbody *ngIf="objects.length > 0">
-    <tr *ngFor="let object of objects">
+    <tr *ngFor="let object of objects" (click)="loadToEdit(object)">
       <td *ngFor="let attribute of modelAttributes">{{ object[attribute] }}</td>
     </tr>
   </tbody>
