@@ -1,8 +1,8 @@
 import { coursesFields } from './../../Models/Course';
 
 import { Component } from '@angular/core';
-import { EntityViewerComponent } from '../shared/shared/entity-viewer/entity-viewer.component';
-import listCourses, { Course } from 'src/Models/Course';
+
+import { Course } from 'src/Models/Course';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { DataService } from 'src/services/data.service';
 

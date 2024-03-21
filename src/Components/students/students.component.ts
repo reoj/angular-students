@@ -1,8 +1,5 @@
 import { Student, studentFields } from './../../Models/Student';
-import { Component, Input } from '@angular/core';
-import listStudents from 'src/Models/Student';
-import { EntityViewerComponent } from '../shared/shared/entity-viewer/entity-viewer.component';
-import { AddObjectFormComponent } from '../shared/shared/add-object-form/add-object-form.component';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule } from '@angular/forms';
 import { DataService } from 'src/services/data.service';
 

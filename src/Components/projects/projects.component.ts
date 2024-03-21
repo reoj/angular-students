@@ -2,7 +2,6 @@ import { Project, projectsFields } from './../../Models/Project';
 
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import listProjects from 'src/Models/Project';
 import { DataService } from 'src/services/data.service';
 
 @Component({
