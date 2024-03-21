@@ -4,6 +4,7 @@ import { Component } from '@angular/core';
 import { EntityViewerComponent } from '../shared/shared/entity-viewer/entity-viewer.component';
 import listCourses, { Course } from 'src/Models/Course';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { DataService } from 'src/services/data.service';
 
 @Component({
   selector: 'app-courses',
@@ -11,21 +12,24 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   styleUrls: ['./courses.component.css']
 })
 export class CoursesComponent {
-  public coursesCollection = listCourses as Array<Course>;
-  modelAttributes = Object.keys(this.coursesCollection[0]);
+  public coursesCollection = [] as Array<Course>;
+  modelAttributes = [] as string[];
   addObjectForm: FormGroup = new FormGroup({});
 
-  constructor(private builder: FormBuilder) {    
+  constructor(private builder: FormBuilder, private dataService: DataService) {   
+    this.fetchCourses();
+    this.modelAttributes = Object.keys(coursesFields);
     this.addObjectForm = this.builder.group(coursesFields);
   }
-  addObject(value: Course) {
-    let indexOfFoundStudent = this.coursesCollection.findIndex((s) => s.Id === value.Id);
-    let isRegistered = indexOfFoundStudent > -1;
-    if (isRegistered) {
-      this.coursesCollection[indexOfFoundStudent] = value;
-      return;
-    }
-    this.coursesCollection.push(value);
+  fetchCourses() {
+    this.dataService.fetchDataCourses().subscribe((coursesFromService) => {
+      this.coursesCollection = coursesFromService;
+    });
+  }
+  addObject(newValue: Course) {
+    this.dataService.addDataCourses(newValue).subscribe((coursesFromService) => {
+      this.coursesCollection = coursesFromService;
+    });
   }
   loadToForm(course: Course) {
     this.addObjectForm.setValue(course);

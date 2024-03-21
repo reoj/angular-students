@@ -8,19 +8,29 @@ import { CoursesComponent } from 'src/Components/courses/courses.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProjectsComponent } from 'src/Components/projects/projects.component';
 import { RouterModule } from '@angular/router';
-import { Route } from '@angular/router';
+import { DataService } from 'src/services/data.service';
 
 @NgModule({
-  declarations: [AppComponent, StudentsComponent, CoursesComponent, ProjectsComponent],
-  imports: [BrowserModule, SharedModule, ReactiveFormsModule, FormsModule, RouterModule.forRoot(
-    [
-      {path: 'students', component: StudentsComponent},
-      {path: 'courses', component: CoursesComponent},
-      {path: 'projects', component: ProjectsComponent},
-    ]
-  
-  )],
-  providers: [],
+  declarations: [
+    AppComponent,
+    StudentsComponent,
+    CoursesComponent,
+    ProjectsComponent,
+  ],
+
+  imports: [
+    BrowserModule,
+    SharedModule,
+    ReactiveFormsModule,
+    FormsModule,
+    RouterModule.forRoot([
+      { path: '', redirectTo: 'students', pathMatch: 'full' },
+      { path: 'students', component: StudentsComponent },
+      { path: 'courses', component: CoursesComponent },
+      { path: 'projects', component: ProjectsComponent },
+    ]),
+  ],
+  providers: [DataService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

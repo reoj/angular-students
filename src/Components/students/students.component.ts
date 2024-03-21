@@ -4,29 +4,33 @@ import listStudents from 'src/Models/Student';
 import { EntityViewerComponent } from '../shared/shared/entity-viewer/entity-viewer.component';
 import { AddObjectFormComponent } from '../shared/shared/add-object-form/add-object-form.component';
 import { FormBuilder, FormGroup, FormsModule } from '@angular/forms';
+import { DataService } from 'src/services/data.service';
 
 @Component({
   selector: 'app-students',
   templateUrl: './students.component.html',
-  styleUrls: ['./students.component.css']
+  styleUrls: ['./students.component.css'],
 })
 export class StudentsComponent {
-  public studentsCollection = listStudents as Array<Student>;
-  modelAttributes = Object.keys(this.studentsCollection[0]);
+  public studentsCollection = [] as Student[];
+  modelAttributes = [] as string[];
   addObjectForm: FormGroup = new FormGroup({});
 
-  constructor(private builder: FormBuilder) {    
+  constructor(private builder: FormBuilder, private dataService: DataService) {
+    this.fetchstudents();
+    this.modelAttributes = Object.keys(studentFields);
     this.addObjectForm = this.builder.group(studentFields);
   }
 
+  fetchstudents() {
+    this.dataService.fetchDataStudents().subscribe((students) => {
+      this.studentsCollection = students;
+    });
+  }
   addObject(student: Student) {
-    let indexOfFoundStudent = this.studentsCollection.findIndex((s) => s.Id === student.Id);
-    let isRegistered = indexOfFoundStudent > -1;
-    if (isRegistered) {
-      this.studentsCollection[indexOfFoundStudent] = student;
-      return;
-    }
-    this.studentsCollection.push(student);
+    this.dataService.addDataStudents(student).subscribe((students) => {
+      this.studentsCollection = students;
+    });
   }
   loadToForm(student: Student) {
     this.addObjectForm.setValue(student);
@@ -34,5 +38,4 @@ export class StudentsComponent {
   clearForm() {
     this.addObjectForm.reset();
   }
-  
 }
