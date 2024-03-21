@@ -1,8 +1,14 @@
 <div class="main">
   <nav class="header">
-    <button class="tab" (click)="selectEntity('students')">Students</button>
-    <button class="tab" (click)="selectEntity('courses')">Courses</button>
-    <button class="tab" (click)="selectEntity('projects')">Projects</button>
+    <a [routerLink]="['/students']" routerLinkActive="router-link-active">
+      <button class="tab">Students</button>
+    </a>
+    <a [routerLink]="['/Courses']" routerLinkActive="router-link-active">
+      <button class="tab">Courses</button>
+    </a>
+    <a [routerLink]="['/Courses']" routerLinkActive="router-link-active">
+      <button class="tab">Projects</button>
+    </a>
   </nav>
   <div class="content">
     <router-outlet></router-outlet>
