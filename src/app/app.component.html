@@ -9,6 +9,12 @@
     <a [routerLink]="['/projects']" routerLinkActive="router-link-active">
       <button class="tab">Projects</button>
     </a>
+    <a [routerLink]="['/studentsInCourses']" routerLinkActive="router-link-active">
+      <button class="tab">Students by Courses</button>
+    </a>
+    <a [routerLink]="['/studentsInProjects']" routerLinkActive="router-link-active">
+      <button class="tab">Students by Projects</button>
+    </a>
   </nav>
   <div class="content">
     <router-outlet></router-outlet>

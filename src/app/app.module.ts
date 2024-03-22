@@ -9,6 +9,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProjectsComponent } from 'src/Components/projects/projects.component';
 import { RouterModule } from '@angular/router';
 import { DataService } from 'src/services/data.service';
+import { StudentsByCoursesComponent } from 'src/Components/students-by-courses/students-by-courses.component';
+import { StudentsByProjectComponent } from 'src/Components/students-by-project/students-by-project.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +30,8 @@ import { DataService } from 'src/services/data.service';
       { path: 'students', component: StudentsComponent },
       { path: 'courses', component: CoursesComponent },
       { path: 'projects', component: ProjectsComponent },
+      { path: 'studentsByCourses', component: StudentsByCoursesComponent },
+      { path: 'studentsByProject', component: StudentsByProjectComponent },
     ]),
   ],
   providers: [DataService],
