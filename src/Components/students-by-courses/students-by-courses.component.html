@@ -1,36 +1,36 @@
 <div class="container">
   <h1>Studentd By Courses</h1>
-  <!-- <div>
-      <form [formGroup]="addObjectForm">
-        <table>
-          <tr>
-            <td *ngFor="let attrib of modelAttributes">
-              <input
-                type="text"
-                [formControlName]="attrib"
-                placeholder="{{ attrib }}"
-                class="input-field"
-              />
-            </td>
-            <td>
-              <button
-                (click)="addObject(addObjectForm.value)"
-                class="submit-button"
-              >
-                Add / Update
-              </button>
-            </td>
-            <td>
-              <button (click)="clearForm()" class="clear-button">Clear</button>
-            </td>
-          </tr>
-        </table>
-      </form>
-    </div>
-   -->
+  <div>
+    <form [formGroup]="addObjectForm">
+      <table>
+        <tr>
+          <td *ngFor="let attrib of modelAttributes">
+            <input
+              type="text"
+              [formControlName]="attrib"
+              placeholder="{{ attrib }}"
+              class="input-field"
+            />
+          </td>
+          <td>
+            <button
+              (click)="addObject(addObjectForm.value)"
+              class="submit-button"
+            >
+              Add / Update
+            </button>
+          </td>
+          <td>
+            <button (click)="clearForm()" class="clear-button">Clear</button>
+          </td>
+        </tr>
+      </table>
+    </form>
+  </div>
 
   <shared-entity-viewer
     [listObjects]="studentsByCoursesCollection"
-    (editable)="loadToForm($event)">
+    (editable)="loadToForm($event)"
+  >
   </shared-entity-viewer>
 </div>
