@@ -1,8 +1,8 @@
 import { Course } from 'src/Models/Course';
-import { Student } from './../../../../Models/Student';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Student, studentFields } from './../../../../Models/Student';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Project } from 'src/Models/Project';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'shared-add-object-form',
@@ -10,16 +10,23 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./add-object-form.component.css'],
 })
 export class AddObjectFormComponent implements OnInit {
+  @Input() title: string = '';
+  @Input() objectType = 'student';
+  fields = studentFields;
+  addObjectForm: FormGroup = new FormGroup({});
+  modelAttributes = Object.keys(studentFields);
   @Output() addObject = new EventEmitter<Student | Course | Project>();
   @Output() clearForm = new EventEmitter<void>();
   @Output() formSubmit = new EventEmitter<void>();
   @Output() formReset = new EventEmitter<void>();
 
-  constructor() {}
+  constructor(private builder: FormBuilder) {
+    this.addObjectForm = builder.group(studentFields);
+  }
 
   ngOnInit(): void {}
 
-  onSubmit() {
+  onSubmit(value: FormGroup) {
     this.formSubmit.emit();
   }
 
@@ -35,4 +42,3 @@ export class AddObjectFormComponent implements OnInit {
     this.clearForm.emit();
   }
 }
-

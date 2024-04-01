@@ -2,11 +2,16 @@ import { Observable, of } from 'rxjs';
 import listCourses, { Course } from 'src/Models/Course';
 import listProjects, { Project } from 'src/Models/Project';
 import listStudents, { Student } from 'src/Models/Student';
+import listStudentsByCourses, {
+  StudentsByCourses,
+} from 'src/Models/StudentsByCourse';
 
 export class DataService {
+  
   private studentsData: Student[] = listStudents;
   private coursesData: Course[] = listCourses;
   private projectsData: Project[] = listProjects;
+  private studentsByCoursesData: StudentsByCourses[] = listStudentsByCourses;
 
   // Simulate fetching data from a TS file
   fetchDataStudents(): Observable<Student[]> {
@@ -89,8 +94,38 @@ export class DataService {
       }, 500);
     });
   }
+  fetchDataStudentsByCourses() {
+    return new Observable<StudentsByCourses[]>((observer) => {
+      setTimeout(() => {
+        observer.next(listStudentsByCourses);
+        observer.complete();
+      }, 500);
+    });
+  }
+  addDataStudentsByCourses(newData: StudentsByCourses) {
+    let indexOfFoundRegistration = this.checkIfStudentIsRegisteredInCourse(newData);
+    let isRegistered = indexOfFoundRegistration > -1;
+    if (isRegistered) {
+      this.studentsByCoursesData[indexOfFoundRegistration] = newData;
+      return of(this.studentsByCoursesData);
+    }
+    return new Observable<StudentsByCourses[]>((observer) => {
+      setTimeout(() => {
+        this.studentsByCoursesData.push(newData);
+        observer.next(this.studentsByCoursesData);
+        observer.complete();
+      }, 500);
+    });
+  }
+  checkIfStudentIsRegisteredInCourse(newData: StudentsByCourses) {
+    return this.studentsByCoursesData.findIndex(
+      (objInstance) =>
+        objInstance.StudentId === newData.StudentId &&
+        objInstance.CourseID === newData.CourseID
+    );
+  }
   private findObbjectIndexById(
-    data: Student[] | Course[] | Project[],
+    data: Student[] | Course[] | Project[] | StudentsByCourses[],
     id: number
   ): number {
     return data.findIndex((objInstance) => objInstance.Id === id);

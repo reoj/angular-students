@@ -1,0 +1,25 @@
+<h1>{{ title }}</h1>
+<div>
+  <form [formGroup]="addObjectForm">
+    <table>
+      <tr>
+        <td *ngFor="let attrib of modelAttributes">
+          <input
+            type="text"
+            [formControlName]="attrib"
+            placeholder="{{ attrib }}"
+            class="input-field"
+          />
+        </td>
+        <td>
+          <button (click)="onSubmit(addObjectForm.value)" class="submit-button">
+            Add / Update
+          </button>
+        </td>
+        <td>
+          <button (click)="onClearForm()" class="clear-button">Clear</button>
+        </td>
+      </tr>
+    </table>
+  </form>
+</div>

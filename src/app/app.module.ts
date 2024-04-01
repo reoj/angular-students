@@ -18,6 +18,7 @@ import { StudentsByProjectComponent } from 'src/Components/students-by-project/s
     StudentsComponent,
     CoursesComponent,
     ProjectsComponent,
+    StudentsByCoursesComponent,
   ],
 
   imports: [
