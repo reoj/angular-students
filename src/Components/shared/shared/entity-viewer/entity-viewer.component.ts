@@ -3,6 +3,7 @@ import listCourses, { Course } from 'src/Models/Course';
 import { Project } from 'src/Models/Project';
 import { Student } from 'src/Models/Student';
 import { StudentsByCourses } from 'src/Models/StudentsByCourse';
+import { StudentsByProject } from 'src/Models/StudentsByProject';
 
 @Component({
   selector: 'shared-entity-viewer',
@@ -10,7 +11,7 @@ import { StudentsByCourses } from 'src/Models/StudentsByCourse';
   styleUrls: ['./entity-viewer.component.css'],
 })
 export class EntityViewerComponent implements OnInit {
-  @Input() listObjects: Array<Student | Course | Project | StudentsByCourses> =
+  @Input() listObjects: Array<Student | Course | Project | StudentsByCourses | StudentsByProject> =
     [];
   modelAttributes: string[] = [];
   objects: any[] = [];
@@ -31,7 +32,7 @@ export class EntityViewerComponent implements OnInit {
   public resetList() {
     this.listObjects = [];
   }
-  loadToEdit(object: Student | Course | Project | StudentsByCourses) {
+  loadToEdit(object: Student | Course | Project | StudentsByCourses | StudentsByProject) {
     this.editable.emit(object);
   }
 }

@@ -5,13 +5,14 @@ import listStudents, { Student } from 'src/Models/Student';
 import listStudentsByCourses, {
   StudentsByCourses,
 } from 'src/Models/StudentsByCourse';
+import listStudentsByProjects, { StudentsByProject } from 'src/Models/StudentsByProject';
 
 export class DataService {
-  
   private studentsData: Student[] = listStudents;
   private coursesData: Course[] = listCourses;
   private projectsData: Project[] = listProjects;
   private studentsByCoursesData: StudentsByCourses[] = listStudentsByCourses;
+  private studentsByProjectData: StudentsByProject[] = listStudentsByProjects;
 
   // Simulate fetching data from a TS file
   fetchDataStudents(): Observable<Student[]> {
@@ -102,8 +103,10 @@ export class DataService {
       }, 500);
     });
   }
+  
   addDataStudentsByCourses(newData: StudentsByCourses) {
-    let indexOfFoundRegistration = this.checkIfStudentIsRegisteredInCourse(newData);
+    let indexOfFoundRegistration =
+      this.checkIfStudentIsRegisteredInCourse(newData);
     let isRegistered = indexOfFoundRegistration > -1;
     if (isRegistered) {
       this.studentsByCoursesData[indexOfFoundRegistration] = newData;
@@ -117,7 +120,38 @@ export class DataService {
       }, 500);
     });
   }
-  checkIfStudentIsRegisteredInCourse(newData: StudentsByCourses) {
+  fetchDataStudentsByProjects() {
+    return new Observable<StudentsByProject[]>((observer) => {
+      setTimeout(() => {
+        observer.next(this.studentsByProjectData);
+        observer.complete();
+      }, 500);
+    });
+  }
+  addDataStudentsByProjects(newData: StudentsByProject) {
+    let indexOfFoundRegistration =
+      this.checkIfStudentIsRegisteredInProject(newData);
+    let isRegistered = indexOfFoundRegistration > -1;
+    if (isRegistered) {
+      this.studentsByProjectData[indexOfFoundRegistration] = newData;
+      return of(this.studentsByProjectData);
+    }
+    return new Observable<StudentsByProject[]>((observer) => {
+      setTimeout(() => {
+        this.studentsByProjectData.push(newData);
+        observer.next(this.studentsByProjectData);
+        observer.complete();
+      }, 500);
+    });
+  }
+  private checkIfStudentIsRegisteredInProject(newData: StudentsByProject) {
+    return this.studentsByProjectData.findIndex(
+      (objInstance) =>
+        objInstance.StudentId === newData.StudentId &&
+        objInstance.ProjectID === newData.ProjectID
+    );
+  }
+  private checkIfStudentIsRegisteredInCourse(newData: StudentsByCourses) {
     return this.studentsByCoursesData.findIndex(
       (objInstance) =>
         objInstance.StudentId === newData.StudentId &&
