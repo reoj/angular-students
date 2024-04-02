@@ -8,6 +8,7 @@ import listStudentsByCourses, {
 import listStudentsByProjects, { StudentsByProject } from 'src/Models/StudentsByProject';
 
 export class DataService {
+  
   private studentsData: Student[] = listStudents;
   private coursesData: Course[] = listCourses;
   private projectsData: Project[] = listProjects;
@@ -22,6 +23,13 @@ export class DataService {
         observer.complete();
       }, 500);
     });
+  }
+
+  getStudentById(id: number) {
+    return this.studentsData.find((student) => student.Id === id);
+  }
+  getCourseById(id: any) {
+    return this.coursesData.find((course) => course.Id === id);
   }
 
   addDataStudents(newData: Student): Observable<Student[]> {

@@ -18,6 +18,7 @@ export class StudentsByCoursesComponent {
 
   constructor(private builder: FormBuilder, private dataService: DataService) {
     this.fetchstudentsByCourses();
+    this.fixDataForDisplay();
     this.modelAttributes = Object.keys(studentByCoursesFields);
     this.addObjectForm = this.builder.group(studentByCoursesFields);
   }
@@ -37,5 +38,26 @@ export class StudentsByCoursesComponent {
   }
   clearForm() {
     this.addObjectForm.reset();
+  }
+  private fixDataForDisplay() {
+    this.modelAttributes = this.modelAttributes.map((attr) => {
+      return attr === 'CourseID'
+        ? 'Course'
+        : attr === 'StudentId'
+        ? 'Student'
+        : attr;
+    });
+
+    this.studentsByCoursesCollection = this.studentsByCoursesCollection.map(
+      (stbyco) => {
+        const course = this.dataService.getCourseById(stbyco.CourseID);
+        const student = this.dataService.getStudentById(stbyco.StudentId);
+        return {
+          ...stbyco,
+          course: course ? course.Name : '',
+          student: student ? student.Name : '',
+        };
+      }
+    );
   }
 }
