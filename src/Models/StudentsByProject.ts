@@ -18,7 +18,7 @@ export default listStudentsByProjects;
 
 export interface StudentsByProjectGUI {
   StudentName: string;
-  CourseName: string;
+  ProjectName: string;
 }
 
 export const studentByProjectFields = {

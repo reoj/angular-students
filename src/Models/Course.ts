@@ -10,6 +10,11 @@ const listCourses: Course[] = [
   { Id: 203, Name: 'Magic' },
 ];
 
+export interface CourseGUI {
+  Id: number;
+  Name: string;
+}
+
 export const coursesFields = {
   Id: [''],
   Name: ['']
