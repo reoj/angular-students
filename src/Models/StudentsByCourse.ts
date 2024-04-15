@@ -1,36 +1,28 @@
-import listStudents, { Student } from 'src/Models/Student';
-import listCourses, { Course } from './Course';
+import { Student } from './Student';
 
 export class StudentsByCourses {
   constructor(
     public Id: number,
-    public registeredStudent: Student,
-    public registeredCourse: Course
+    public StudentId: number,
+    public CourseID: number
   ) {
     this.Id = Id;
-    this.registeredStudent = registeredStudent;
-    this.registeredCourse = registeredCourse;
+    this.StudentId = StudentId;
+    this.CourseID = CourseID;
   }
 }
 const listStudentsByCourses: StudentsByCourses[] = [
-  {
-    Id: 0,
-    registeredStudent: listStudents[0],
-    registeredCourse: listCourses[0],
-  },
+  { Id: 0, StudentId: 1, CourseID: 1 },
 ];
 
 export default listStudentsByCourses;
 
 export interface StudentByCoursesGUI {
-  Id: number;
-  StudentId: number;
   StudentName: string;
-  CourseId: number;
   CourseName: string;
 }
 
 export const studentByCoursesFields = {
   StudentName: [''],
-  CourseName: [''],
+  CourseName: ['']
 };

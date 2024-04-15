@@ -1,36 +1,27 @@
-import listStudents, { Project } from 'src/Models/Project';
-import listProjects, { Student } from 'src/Models/Student';
 
 export class StudentsByProject {
   constructor(
     public Id: number,
-    public registeredStudent: Student,
-    public registeredProject: Project
+    public StudentId: number,
+    public ProjectID: number
   ) {
     this.Id = Id;
-    this.registeredStudent = registeredStudent;
-    this.registeredProject = registeredProject;
+    this.StudentId = StudentId;
+    this.ProjectID = ProjectID;
   }
 }
 const listStudentsByProjects: StudentsByProject[] = [
-  {
-    Id: 0,
-    registeredStudent: listStudents[0],
-    registeredProject: listProjects[0],
-  },
+  { Id: 0, StudentId: 1, ProjectID: 1 },
 ];
 
 export default listStudentsByProjects;
 
 export interface StudentsByProjectGUI {
-  Id: number;
-  StudentId: number;
   StudentName: string;
-  ProjectId: number;
   ProjectName: string;
 }
 
 export const studentByProjectFields = {
   StudentName: [''],
-  CourseName: [''],
+  CourseName: ['']
 };

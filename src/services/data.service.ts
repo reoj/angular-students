@@ -1,24 +1,19 @@
 import { Observable, of } from 'rxjs';
-import listCourses, { Course, CourseGUI } from 'src/Models/Course';
-import listProjects, { Project, ProjectGUI } from 'src/Models/Project';
-import listStudents, { Student, StudentGUI } from 'src/Models/Student';
+import listCourses, { Course } from 'src/Models/Course';
+import listProjects, { Project } from 'src/Models/Project';
+import listStudents, { Student } from 'src/Models/Student';
 import listStudentsByCourses, {
-  StudentByCoursesGUI,
   StudentsByCourses,
 } from 'src/Models/StudentsByCourse';
-import listStudentsByProjects, {
-  StudentsByProject,
-  StudentsByProjectGUI,
-} from 'src/Models/StudentsByProject';
+import listStudentsByProjects, { StudentsByProject } from 'src/Models/StudentsByProject';
 
 export class DataService {
-  private studentsData: StudentGUI[] = listStudents;
-  private coursesData: CourseGUI[] = listCourses;
-  private projectsData: ProjectGUI[] = listProjects;
-  private studentsByCoursesData: StudentByCoursesGUI[] =
-    this.transformSBCDataToGUI();
-  private studentsByProjectData: StudentsByProjectGUI[] =
-    this.transformSBPDataToGUI();
+  
+  private studentsData: Student[] = listStudents;
+  private coursesData: Course[] = listCourses;
+  private projectsData: Project[] = listProjects;
+  private studentsByCoursesData: StudentsByCourses[] = listStudentsByCourses;
+  private studentsByProjectData: StudentsByProject[] = listStudentsByProjects;
 
   // Simulate fetching data from a TS file
   fetchDataStudents(): Observable<Student[]> {
@@ -109,30 +104,23 @@ export class DataService {
     });
   }
   fetchDataStudentsByCourses() {
-    return new Observable<StudentByCoursesGUI[]>((observer) => {
+    return new Observable<StudentsByCourses[]>((observer) => {
       setTimeout(() => {
-        observer.next(this.studentsByCoursesData);
+        observer.next(listStudentsByCourses);
         observer.complete();
       }, 500);
     });
   }
-
-  addDataStudentsByCourses(newData: StudentByCoursesGUI) {
-    let registrationToSearch = new StudentsByCourses(
-      newData.Id,
-      new Student(newData.StudentId, newData.StudentName),
-      new Course(newData.CourseId, newData.CourseName)
-    );
-
+  
+  addDataStudentsByCourses(newData: StudentsByCourses) {
     let indexOfFoundRegistration =
-      this.checkIfStudentIsRegisteredInCourse(registrationToSearch);
-
+      this.checkIfStudentIsRegisteredInCourse(newData);
     let isRegistered = indexOfFoundRegistration > -1;
     if (isRegistered) {
       this.studentsByCoursesData[indexOfFoundRegistration] = newData;
       return of(this.studentsByCoursesData);
     }
-    return new Observable<StudentByCoursesGUI[]>((observer) => {
+    return new Observable<StudentsByCourses[]>((observer) => {
       setTimeout(() => {
         this.studentsByCoursesData.push(newData);
         observer.next(this.studentsByCoursesData);
@@ -141,29 +129,22 @@ export class DataService {
     });
   }
   fetchDataStudentsByProjects() {
-    return new Observable<StudentsByProjectGUI[]>((observer) => {
+    return new Observable<StudentsByProject[]>((observer) => {
       setTimeout(() => {
         observer.next(this.studentsByProjectData);
         observer.complete();
       }, 500);
     });
   }
-  addDataStudentsByProjects(newData: StudentsByProjectGUI) {
-    let registrationToSearch = new StudentsByProject(
-      newData.Id,
-      new Student(newData.StudentId, newData.StudentName),
-      new Project(newData.ProjectId, newData.ProjectName)
-    );
-
+  addDataStudentsByProjects(newData: StudentsByProject) {
     let indexOfFoundRegistration =
-      this.checkIfStudentIsRegisteredInProject(registrationToSearch);
-
+      this.checkIfStudentIsRegisteredInProject(newData);
     let isRegistered = indexOfFoundRegistration > -1;
     if (isRegistered) {
       this.studentsByProjectData[indexOfFoundRegistration] = newData;
       return of(this.studentsByProjectData);
     }
-    return new Observable<StudentsByProjectGUI[]>((observer) => {
+    return new Observable<StudentsByProject[]>((observer) => {
       setTimeout(() => {
         this.studentsByProjectData.push(newData);
         observer.next(this.studentsByProjectData);
@@ -174,48 +155,21 @@ export class DataService {
   private checkIfStudentIsRegisteredInProject(newData: StudentsByProject) {
     return this.studentsByProjectData.findIndex(
       (objInstance) =>
-        objInstance.StudentId === newData.registeredStudent.Id &&
-        objInstance.ProjectId === newData.registeredProject.Id
+        objInstance.StudentId === newData.StudentId &&
+        objInstance.ProjectID === newData.ProjectID
     );
   }
   private checkIfStudentIsRegisteredInCourse(newData: StudentsByCourses) {
     return this.studentsByCoursesData.findIndex(
       (objInstance) =>
-        objInstance.StudentId === newData.registeredStudent.Id &&
-        objInstance.CourseId === newData.registeredCourse.Id
+        objInstance.StudentId === newData.StudentId &&
+        objInstance.CourseID === newData.CourseID
     );
   }
   private findObbjectIndexById(
-    data:
-      | Student[]
-      | Course[]
-      | Project[]
-      | StudentsByProject[]
-      | StudentsByCourses[],
+    data: Student[] | Course[] | Project[] | StudentsByCourses[],
     id: number
   ): number {
     return data.findIndex((objInstance) => objInstance.Id === id);
-  }
-  private transformSBCDataToGUI(): StudentByCoursesGUI[] {
-    return listStudentsByCourses.map((registration) => {
-      return {
-        Id: registration.Id,
-        StudentId: registration.registeredStudent.Id,
-        StudentName: registration.registeredStudent.Name,
-        CourseId: registration.registeredCourse.Id,
-        CourseName: registration.registeredCourse.Name,
-      };
-    });
-  }
-  transformSBPDataToGUI(): StudentsByProjectGUI[] {
-    return listStudentsByProjects.map((registration) => {
-      return {
-        Id: registration.Id,
-        StudentId: registration.registeredStudent.Id,
-        StudentName: registration.registeredStudent.Name,
-        ProjectId: registration.registeredProject.Id,
-        ProjectName: registration.registeredProject.Name,
-      };
-    });
   }
 }
