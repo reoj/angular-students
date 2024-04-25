@@ -26,9 +26,14 @@ export class CoursesComponent {
       this.coursesCollection = coursesFromService;
     });
   }
-  addObject(newValue: Course) {
-    this.dataService.addDataCourses(newValue).subscribe((coursesFromService) => {
-      this.coursesCollection = coursesFromService;
+  addObject() {
+    let course = new Course(
+      this.addObjectForm.value.Id ?? this.coursesCollection.length + 1,
+      this.addObjectForm.value.Name ?? ''
+    );
+    console.log(course);
+    this.dataService.addDataCourses(course).subscribe((courses) => {
+      this.coursesCollection = [...courses];
     });
   }
   loadToForm(course: Course) {

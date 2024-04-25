@@ -14,9 +14,9 @@ export class StudentsByProjectComponent {
   addObjectForm: FormGroup = new FormGroup({});
 
   constructor(private builder: FormBuilder, private dataService: DataService) {
-    this.fetchstudentsByCourses();
-    this.modelAttributes = Object.keys(studentByProjectFields);
-    this.addObjectForm = this.builder.group(studentByProjectFields);
+    // this.fetchstudentsByCourses();
+    // this.modelAttributes = Object.keys(studentByProjectFields);
+    // this.addObjectForm = this.builder.group(studentByProjectFields);
   }
 
   fetchstudentsByCourses() {

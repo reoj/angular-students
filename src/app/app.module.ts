@@ -11,6 +11,11 @@ import { RouterModule } from '@angular/router';
 import { DataService } from 'src/services/data.service';
 import { StudentsByCoursesComponent } from 'src/Components/students-by-courses/students-by-courses.component';
 import { StudentsByProjectComponent } from 'src/Components/students-by-project/students-by-project.component';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { MatTableModule } from '@angular/material/table';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -27,6 +32,10 @@ import { StudentsByProjectComponent } from 'src/Components/students-by-project/s
     SharedModule,
     ReactiveFormsModule,
     FormsModule,
+    MatTableModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatSelectModule,
     RouterModule.forRoot([
       { path: '', redirectTo: 'students', pathMatch: 'full' },
       { path: 'students', component: StudentsComponent },
@@ -36,7 +45,7 @@ import { StudentsByProjectComponent } from 'src/Components/students-by-project/s
       { path: 'studentsByProject', component: StudentsByProjectComponent },
     ]),
   ],
-  providers: [DataService],
+  providers: [DataService, provideAnimationsAsync()],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

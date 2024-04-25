@@ -1,20 +1,32 @@
 <div class="container">
-  <h1>Studentd By Courses</h1>
+  <h1>Students</h1>
   <div>
     <form [formGroup]="addObjectForm">
       <table>
         <tr>
-          <td *ngFor="let attrib of modelAttributes">
-            <input
-              type="text"
-              [formControlName]="attrib"
-              placeholder="{{ attrib }}"
-              class="input-field"
-            />
+          <td>
+            <mat-form-field>
+              <mat-label>Student</mat-label>
+              <mat-select>
+                @for (student of currentStudents; track student) {
+                  <mat-option [value]="student.Name">{{student.Name}}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-form-field>
+              <mat-label>Courses</mat-label>
+              <mat-select>
+                @for (course of currentCourses; track course) {
+                  <mat-option [value]="course.Name">{{course.Name}}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
           </td>
           <td>
             <button
-              (click)="addObject(addObjectForm.value)"
+              (click)="addObject()"
               class="submit-button"
             >
               Add / Update
@@ -27,10 +39,20 @@
       </table>
     </form>
   </div>
+  
+  <table mat-table [dataSource]="studentsByCoursesCollection" class="mat-elevation-z8">
+    <ng-container matColumnDef="Id">
+      <th mat-header-cell *matHeaderCellDef>Id</th>
+      <td mat-cell *matCellDef="let element">{{ element.Id }}</td>
+    </ng-container>
 
-  <shared-entity-viewer
-    [listObjects]="studentsByCoursesCollection"
-    (editable)="loadToForm($event)"
-  >
-  </shared-entity-viewer>
+    <!-- Name Column -->
+    <ng-container matColumnDef="Name">
+      <th mat-header-cell *matHeaderCellDef>Name</th>
+      <td mat-cell *matCellDef="let element">{{ element.Name }}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="modelAttributes"></tr>
+    <tr mat-row *matRowDef="let row; columns: modelAttributes" (click)="loadToForm(row)"></tr>
+  </table>
 </div>

@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import {Course} from 'src/Models/Course';
+import {Student} from 'src/Models/Student';
 import {
   studentByCoursesFields,
   StudentsByCourses,
@@ -11,26 +13,49 @@ import { DataService } from 'src/services/data.service';
   templateUrl: './students-by-courses.component.html',
   styleUrl: './students-by-courses.component.css',
 })
-export class StudentsByCoursesComponent {
+export class StudentsByCoursesComponent implements OnInit {
   public studentsByCoursesCollection = [] as StudentsByCourses[];
   modelAttributes = [] as string[];
   addObjectForm: FormGroup = new FormGroup({});
+  currentStudents = [] as Student[];
+  currentCourses = [] as Course[];
 
   constructor(private builder: FormBuilder, private dataService: DataService) {
-    this.fetchstudentsByCourses();
-    this.fixDataForDisplay();
-    this.modelAttributes = Object.keys(studentByCoursesFields);
-    this.addObjectForm = this.builder.group(studentByCoursesFields);
+    
   }
+  ngOnInit(): void {
+    this.fetchCurrentStudents();
+    this.fetchCurrentCourses();
+    this.fetchstudentsByCourses();
+    // this.modelAttributes = Object.keys(studentByCoursesFields);
+    // this.addObjectForm = this.builder.group(studentByCoursesFields);
+  }
+  fetchCurrentStudents() {
+    this.dataService.fetchDataStudents().subscribe((students) => {
+      this.currentStudents = students;
+    });
+  }
+
+  fetchCurrentCourses() {
+    this.dataService.fetchDataCourses().subscribe((courses) => {
+      this.currentCourses = courses;
+    });
+  }
+  
 
   fetchstudentsByCourses() {
     this.dataService.fetchDataStudentsByCourses().subscribe((stbyco) => {
       this.studentsByCoursesCollection = stbyco;
     });
   }
-  addObject(newValue: StudentsByCourses) {
-    this.dataService.addDataStudentsByCourses(newValue).subscribe((stbyco) => {
-      this.studentsByCoursesCollection = stbyco;
+  addObject() {
+    let studentByCourse = new StudentsByCourses(
+      this.addObjectForm.value.Id ?? this.studentsByCoursesCollection.length + 1,
+      this.addObjectForm.value.CourseID ?? 0,
+      this.addObjectForm.value.StudentId ?? 0
+    );
+    this.dataService.addDataStudentsByCourses(studentByCourse).subscribe((stbyco) => {
+      this.studentsByCoursesCollection = [...stbyco];
     });
   }
   loadToForm(selectedData: StudentsByCourses) {
@@ -38,26 +63,5 @@ export class StudentsByCoursesComponent {
   }
   clearForm() {
     this.addObjectForm.reset();
-  }
-  private fixDataForDisplay() {
-    this.modelAttributes = this.modelAttributes.map((attr) => {
-      return attr === 'CourseID'
-        ? 'Course'
-        : attr === 'StudentId'
-        ? 'Student'
-        : attr;
-    });
-
-    this.studentsByCoursesCollection = this.studentsByCoursesCollection.map(
-      (stbyco) => {
-        const course = this.dataService.getCourseById(stbyco.CourseID);
-        const student = this.dataService.getStudentById(stbyco.StudentId);
-        return {
-          ...stbyco,
-          course: course ? course.Name : '',
-          student: student ? student.Name : '',
-        };
-      }
-    );
   }
 }

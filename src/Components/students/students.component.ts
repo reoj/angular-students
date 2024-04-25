@@ -1,6 +1,11 @@
 import { Student, studentFields } from './../../Models/Student';
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  FormsModule,
+} from '@angular/forms';
 import { DataService } from 'src/services/data.service';
 
 @Component({
@@ -8,25 +13,35 @@ import { DataService } from 'src/services/data.service';
   templateUrl: './students.component.html',
   styleUrls: ['./students.component.css'],
 })
-export class StudentsComponent {
+export class StudentsComponent implements OnInit {
   public studentsCollection = [] as Student[];
   modelAttributes = [] as string[];
-  addObjectForm: FormGroup = new FormGroup({});
+  addObjectForm!: FormGroup;
 
-  constructor(private builder: FormBuilder, private dataService: DataService) {
+  constructor(private builder: FormBuilder, private dataService: DataService) {}
+  ngOnInit(): void {
     this.fetchstudents();
     this.modelAttributes = Object.keys(studentFields);
-    this.addObjectForm = this.builder.group(studentFields);
+    this.addObjectForm = new FormGroup({
+      Id: new FormControl(''),
+      Name: new FormControl(''),
+    });
   }
-
   fetchstudents() {
     this.dataService.fetchDataStudents().subscribe((students) => {
       this.studentsCollection = students;
+      console.log(this.studentsCollection);
     });
   }
-  addObject(student: Student) {
+  addObject() {
+    let student = new Student(
+      this.addObjectForm.value.Id ?? this.studentsCollection.length + 1,
+      this.addObjectForm.value.Name ?? ''
+    );
+    console.log(student);
     this.dataService.addDataStudents(student).subscribe((students) => {
-      this.studentsCollection = students;
+      this.studentsCollection = [...students];
+      console.log(this.studentsCollection);
     });
   }
   loadToForm(student: Student) {
