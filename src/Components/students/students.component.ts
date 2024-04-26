@@ -35,7 +35,7 @@ export class StudentsComponent implements OnInit {
   }
   addObject() {
     let student = new Student(
-      this.addObjectForm.value.Id ?? this.studentsCollection.length + 1,
+      Number.parseInt(this.addObjectForm.value.Id) ?? this.studentsCollection.length + 1,
       this.addObjectForm.value.Name ?? ''
     );
     console.log(student);

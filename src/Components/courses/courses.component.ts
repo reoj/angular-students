@@ -28,7 +28,7 @@ export class CoursesComponent {
   }
   addObject() {
     let course = new Course(
-      this.addObjectForm.value.Id ?? this.coursesCollection.length + 1,
+      Number.parseInt(this.addObjectForm.value.Id) ?? this.coursesCollection.length + 1,
       this.addObjectForm.value.Name ?? ''
     );
     console.log(course);

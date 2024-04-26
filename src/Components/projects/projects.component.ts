@@ -31,7 +31,7 @@ export class ProjectsComponent implements OnInit{
   }
   addObject() {
     let proyect = new Project(
-      this.addObjectForm.value.Id ?? this.projectsCollection.length + 1,
+      Number.parseInt(this.addObjectForm.value.Id) ?? this.projectsCollection.length + 1,
       this.addObjectForm.value.Name ?? ''
     );
     this.dataService.addDataProjects(proyect).subscribe((proyects) => {

@@ -1,16 +1,14 @@
 <div class="container">
-  <h1>Students</h1>
+  <h1>Courses</h1>
   <div>
     <form [formGroup]="addObjectForm">
       <table>
         <tr>
           <td *ngFor="let attrib of modelAttributes">
-            <input
-              type="text"
-              [formControlName]="attrib"
-              placeholder="{{ attrib }}"
-              class="input-field"
-            />
+            <mat-form-field>
+              <mat-label>{{attrib}}</mat-label>
+              <input matInput [formControlName]="attrib" type="text">
+            </mat-form-field>
           </td>
           <td>
             <button

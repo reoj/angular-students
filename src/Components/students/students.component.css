@@ -26,3 +26,7 @@
   border: none;
   cursor: pointer;
 }
+
+form {
+  margin-bottom: 1em;
+}
