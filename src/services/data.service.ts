@@ -3,19 +3,21 @@ import listCourses, { Course } from 'src/Models/Course';
 import listProjects, { Project } from 'src/Models/Project';
 import listStudents, { Student } from 'src/Models/Student';
 import listStudentsByCourses, {
+  StudentByCoursesGUI,
   StudentsByCourses,
 } from 'src/Models/StudentsByCourse';
-import listStudentsByProjects, { StudentsByProject } from 'src/Models/StudentsByProject';
+import listStudentsByProjects, {
+  StudentsByProject,
+  StudentsByProjectGUI,
+} from 'src/Models/StudentsByProject';
 
 export class DataService {
-  
   private studentsData: Student[] = listStudents;
   private coursesData: Course[] = listCourses;
   private projectsData: Project[] = listProjects;
   private studentsByCoursesData: StudentsByCourses[] = listStudentsByCourses;
   private studentsByProjectData: StudentsByProject[] = listStudentsByProjects;
 
-  // Simulate fetching data from a TS file
   fetchDataStudents(): Observable<Student[]> {
     return new Observable<Student[]>((observer) => {
       setTimeout(() => {
@@ -28,15 +30,13 @@ export class DataService {
   getStudentById(id: number) {
     return this.studentsData.find((student) => student.Id === id);
   }
-  getCourseById(id: any) {
+  getCourseById(id: number) {
     return this.coursesData.find((course) => course.Id === id);
   }
 
   addDataStudents(newData: Student): Observable<Student[]> {
-    let indexOfFoundStudent = this.findObbjectIndexById(
-      this.studentsData,
-      newData.Id
-    );
+    console.log(newData);
+    let indexOfFoundStudent = this.findStudentIndexById(newData.Id);
     let isRegistered = indexOfFoundStudent > -1;
     if (isRegistered) {
       this.studentsData[indexOfFoundStudent] = newData;
@@ -50,6 +50,9 @@ export class DataService {
       }, 500);
     });
   }
+  findStudentIndexById(Id: number) {
+    return this.studentsData.findIndex((student) => student.Id === Id);
+  }
 
   fetchDataCourses(): Observable<Course[]> {
     return new Observable<Course[]>((observer) => {
@@ -60,10 +63,7 @@ export class DataService {
     });
   }
   addDataCourses(newData: Course): Observable<Course[]> {
-    let indexOfFoundStudent = this.findObbjectIndexById(
-      this.coursesData,
-      newData.Id
-    );
+    let indexOfFoundStudent = this.findCourseIndexById(newData.Id);
     let isRegistered = indexOfFoundStudent > -1;
     if (isRegistered) {
       this.coursesData[indexOfFoundStudent] = newData;
@@ -77,6 +77,10 @@ export class DataService {
       }, 500);
     });
   }
+  findCourseIndexById(Id: number) {
+    return this.coursesData.findIndex((course) => course.Id === Id);
+  }
+
   fetchDataProjects(): Observable<Project[]> {
     return new Observable<Project[]>((observer) => {
       setTimeout(() => {
@@ -86,10 +90,7 @@ export class DataService {
     });
   }
   addDataProjects(newData: Project): Observable<Project[]> {
-    let indexOfFoundStudent = this.findObbjectIndexById(
-      this.projectsData,
-      newData.Id
-    );
+    let indexOfFoundStudent = this.findProjectIndexById(newData.Id);
     let isRegistered = indexOfFoundStudent > -1;
     if (isRegistered) {
       this.projectsData[indexOfFoundStudent] = newData;
@@ -103,6 +104,9 @@ export class DataService {
       }, 500);
     });
   }
+  findProjectIndexById(Id: number) {
+    return this.projectsData.findIndex((project) => project.Id === Id);
+  }
   fetchDataStudentsByCourses() {
     return new Observable<StudentsByCourses[]>((observer) => {
       setTimeout(() => {
@@ -111,47 +115,85 @@ export class DataService {
       }, 500);
     });
   }
-  
-  addDataStudentsByCourses(newData: StudentsByCourses) {
-    let indexOfFoundRegistration =
-      this.checkIfStudentIsRegisteredInCourse(newData);
-    let isRegistered = indexOfFoundRegistration > -1;
-    if (isRegistered) {
-      this.studentsByCoursesData[indexOfFoundRegistration] = newData;
-      return of(this.studentsByCoursesData);
+
+  addDataStudentsByCourses(newData: StudentByCoursesGUI) {
+    let student = this.studentsData.find(
+      (student) => student.Name === newData.StudentName
+    );
+    let course = this.coursesData.find(
+      (course) => course.Name === newData.CourseName
+    );
+    if (student && course) {
+      let newStudentByCourse = new StudentsByCourses(
+        this.studentsByCoursesData.length + 1,
+        student.Id,
+        course.Id
+      );
+      let indexOfFoundRegistration =
+        this.checkIfStudentIsRegisteredInCourse(newStudentByCourse);
+      let isRegistered = indexOfFoundRegistration > -1;
+      if (isRegistered) {
+        this.studentsByCoursesData[indexOfFoundRegistration] =
+          newStudentByCourse;
+        return of(this.studentsByCoursesData);
+      }
+      this.studentsByCoursesData.push(newStudentByCourse);
     }
     return new Observable<StudentsByCourses[]>((observer) => {
       setTimeout(() => {
-        this.studentsByCoursesData.push(newData);
         observer.next(this.studentsByCoursesData);
         observer.complete();
       }, 500);
     });
   }
-  fetchDataStudentsByProjects() {
-    return new Observable<StudentsByProject[]>((observer) => {
-      setTimeout(() => {
-        observer.next(this.studentsByProjectData);
-        observer.complete();
-      }, 500);
-    });
-  }
-  addDataStudentsByProjects(newData: StudentsByProject) {
-    let indexOfFoundRegistration =
-      this.checkIfStudentIsRegisteredInProject(newData);
-    let isRegistered = indexOfFoundRegistration > -1;
-    if (isRegistered) {
-      this.studentsByProjectData[indexOfFoundRegistration] = newData;
-      return of(this.studentsByProjectData);
+
+  addDataStudentsByProjects(
+    newData: StudentsByProjectGUI
+  ): Observable<StudentsByProject[]> {
+    let student = this.studentsData.find(
+      (student) => student.Name === newData.StudentName
+    );
+    let project = this.projectsData.find(
+      (proy) => proy.Name === newData.ProjectName
+    );
+    if (student && project) {
+      let newStudentByProyect = new StudentsByProject(
+        this.studentsByCoursesData.length + 1,
+        student.Id,
+        project.Id
+      );
+      let indexOfFoundRegistration =
+        this.checkIfStudentIsRegisteredInProject(newStudentByProyect);
+      let isRegistered = indexOfFoundRegistration > -1;
+
+      if (isRegistered) {
+        this.studentsByProjectData[indexOfFoundRegistration] =
+          newStudentByProyect;
+        return of(this.studentsByProjectData);
+      }
+      this.studentsByProjectData.push(newStudentByProyect);
     }
     return new Observable<StudentsByProject[]>((observer) => {
       setTimeout(() => {
-        this.studentsByProjectData.push(newData);
         observer.next(this.studentsByProjectData);
         observer.complete();
       }, 500);
     });
   }
+
+  public getProjectByID(ProjectID: number) {
+    return this.projectsData.find((project) => project.Id === ProjectID);
+  }
+
+  fetchDataStudentsByProjects(): Observable<StudentsByProject[]> {
+    return new Observable<StudentsByProject[]>((observer) => {
+      setTimeout(() => {
+        observer.next(this.studentsByProjectData);
+        observer.complete();
+      }, 500);
+    });
+  }
+
   private checkIfStudentIsRegisteredInProject(newData: StudentsByProject) {
     return this.studentsByProjectData.findIndex(
       (objInstance) =>
@@ -163,13 +205,7 @@ export class DataService {
     return this.studentsByCoursesData.findIndex(
       (objInstance) =>
         objInstance.StudentId === newData.StudentId &&
-        objInstance.CourseID === newData.CourseID
+        objInstance.CourseId === newData.CourseId
     );
-  }
-  private findObbjectIndexById(
-    data: Student[] | Course[] | Project[] | StudentsByCourses[],
-    id: number
-  ): number {
-    return data.findIndex((objInstance) => objInstance.Id === id);
   }
 }

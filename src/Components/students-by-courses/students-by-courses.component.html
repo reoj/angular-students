@@ -1,5 +1,5 @@
 <div class="container">
-  <h1>Students</h1>
+  <h1>Students By Courses</h1>
   <div>
     <form [formGroup]="addObjectForm">
       <table>
@@ -7,7 +7,7 @@
           <td>
             <mat-form-field>
               <mat-label>Student</mat-label>
-              <mat-select>
+              <mat-select formControlName="StudentName">
                 @for (student of currentStudents; track student) {
                   <mat-option [value]="student.Name">{{student.Name}}</mat-option>
                 }
@@ -17,7 +17,7 @@
           <td>
             <mat-form-field>
               <mat-label>Courses</mat-label>
-              <mat-select>
+              <mat-select formControlName="CourseName">
                 @for (course of currentCourses; track course) {
                   <mat-option [value]="course.Name">{{course.Name}}</mat-option>
                 }
@@ -40,16 +40,16 @@
     </form>
   </div>
   
-  <table mat-table [dataSource]="studentsByCoursesCollection" class="mat-elevation-z8">
-    <ng-container matColumnDef="Id">
-      <th mat-header-cell *matHeaderCellDef>Id</th>
-      <td mat-cell *matCellDef="let element">{{ element.Id }}</td>
+  <table mat-table [dataSource]="studentsByCoursesDisplay" class="mat-elevation-z8">
+    <ng-container matColumnDef="StudentName">
+      <th mat-header-cell *matHeaderCellDef>Student Name</th>
+      <td mat-cell *matCellDef="let element">{{ element.StudentName }}</td>
     </ng-container>
 
     <!-- Name Column -->
-    <ng-container matColumnDef="Name">
-      <th mat-header-cell *matHeaderCellDef>Name</th>
-      <td mat-cell *matCellDef="let element">{{ element.Name }}</td>
+    <ng-container matColumnDef="CourseName">
+      <th mat-header-cell *matHeaderCellDef>Course Name</th>
+      <td mat-cell *matCellDef="let element">{{ element.CourseName }}</td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="modelAttributes"></tr>

@@ -11,17 +11,19 @@ export class StudentsByProject {
   }
 }
 const listStudentsByProjects: StudentsByProject[] = [
-  { Id: 0, StudentId: 1, ProjectID: 1 },
+  { Id: 0, StudentId: 1, ProjectID: 1112 },
 ];
 
 export default listStudentsByProjects;
 
-export interface StudentsByProjectGUI {
-  StudentName: string;
-  ProjectName: string;
+export class StudentsByProjectGUI {
+  constructor(public StudentName: string, public ProjectName: string) {
+    this.StudentName = StudentName;
+    this.ProjectName = ProjectName;
+  }
 }
 
 export const studentByProjectFields = {
   StudentName: [''],
-  CourseName: ['']
+  ProjectName: ['']
 };

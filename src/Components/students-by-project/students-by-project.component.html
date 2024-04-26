@@ -1,37 +1,66 @@
-<!-- <div class="container">
-    <h1>Studentd By Projects</h1>
-    <div>
-      <form [formGroup]="addObjectForm">
-        <table>
-          <tr>
-            <td *ngFor="let attrib of modelAttributes">
-              <input
-                type="text"
-                [formControlName]="attrib"
-                placeholder="{{ attrib }}"
-                class="input-field"
-              />
-            </td>
-            <td>
-              <button
-                (click)="addObject(addObjectForm.value)"
-                class="submit-button"
-              >
-                Add / Update
-              </button>
-            </td>
-            <td>
-              <button (click)="clearForm()" class="clear-button">Clear</button>
-            </td>
-          </tr>
-        </table>
-      </form>
-    </div>
-  
-    <shared-entity-viewer
-      [listObjects]="studentsByProjectCollection"
-      (editable)="loadToForm($event)"
-    >
-    </shared-entity-viewer>
+<div class="container">
+  <h1>Students By Project</h1>
+  <div>
+    <form [formGroup]="addObjectForm">
+      <table>
+        <tr>
+          <td>
+            <mat-form-field>
+              <mat-label>Student</mat-label>
+              <mat-select formControlName="StudentName">
+                @for (student of currentStudents; track student) {
+                <mat-option [value]="student.Name">{{
+                  student.Name
+                }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-form-field>
+              <mat-label>Projects</mat-label>
+              <mat-select formControlName="ProjectName">
+                @for (project of currentProjects; track project) {
+                <mat-option [value]="project.Name">{{
+                  project.Name
+                }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </td>
+          <td>
+            <button (click)="addObject()" class="submit-button">
+              Add / Update
+            </button>
+          </td>
+          <td>
+            <button (click)="clearForm()" class="clear-button">Clear</button>
+          </td>
+        </tr>
+      </table>
+    </form>
   </div>
-   -->
+
+  <table
+    mat-table
+    [dataSource]="studentsByProjectsDisplay"
+    class="mat-elevation-z8"
+  >
+    <ng-container matColumnDef="StudentName">
+      <th mat-header-cell *matHeaderCellDef>Student Name</th>
+      <td mat-cell *matCellDef="let element">{{ element.StudentName }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="ProjectName">
+      <th mat-header-cell *matHeaderCellDef>Project Name</th>
+      <td mat-cell *matCellDef="let element">{{ element.ProjectName }}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="modelAttributes"></tr>
+    <tr
+      mat-row
+      *matRowDef="let row; columns: modelAttributes"
+      (click)="loadToForm(row)"
+    ></tr>
+  </table>
+</div>
